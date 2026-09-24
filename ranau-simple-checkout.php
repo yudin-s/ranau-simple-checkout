@@ -3,7 +3,7 @@
  * Plugin Name:       Ranau Simple Checkout for WooCommerce
  * Plugin URI:        https://ranau.uk/wordpress/ranau-simple-checkout/
  * Description:       A city-and-phone checkout flow for WooCommerce delivery stores.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * Author:            Ranau
@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-define('RANAU_SIMPLE_CHECKOUT_VERSION', '0.1.0');
+define('RANAU_SIMPLE_CHECKOUT_VERSION', '0.1.1');
 define('RANAU_SIMPLE_CHECKOUT_FILE', __FILE__);
 define('RANAU_SIMPLE_CHECKOUT_PATH', plugin_dir_path(__FILE__));
 define('RANAU_SIMPLE_CHECKOUT_URL', plugin_dir_url(__FILE__));

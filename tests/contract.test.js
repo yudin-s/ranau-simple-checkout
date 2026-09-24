@@ -36,7 +36,8 @@ assert(frontend.indexOf("trigger('update_checkout')") > frontend.indexOf('extens
 assert(frontend.includes('new window.MutationObserver(scheduleMount)'));
 assert(frontend.includes('if (scheduled)'));
 
-assert(readme.includes('Stable tag: 0.1.0'));
+assert(readme.includes('Stable tag: 0.1.1'));
+assert(readme.includes('Contributors: yudins'));
 assert(readme.includes('No. The plugin does not call Ranau or any analytics service.'));
 assert(readme.includes('https://ranau.uk/'));
 assert(!readme.includes(legacyHost));

@@ -2,6 +2,10 @@
 
 Independent GPL-2.0-or-later WooCommerce plugin providing a city-and-phone checkout flow.
 
+WordPress.org slug: `ranau-simple-checkout-for-woocommerce`. The shorter
+`ranau-simple-checkout` identifier remains the GitHub repository name and the
+internal code/asset namespace.
+
 ## Development
 
 The distributable WordPress.org package is the plugin directory itself. It has no Composer or npm runtime dependency and makes no external requests.

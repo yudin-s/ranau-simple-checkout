@@ -30,18 +30,20 @@ jobs:
 
       - name: Build release ZIP
         run: |
-          slug="${GITHUB_REPOSITORY#*/}"
-          mkdir -p "plugin-build/$slug"
-          rsync -a --exclude-from=.distignore --exclude='/plugin-build/' --exclude='/*.zip' ./ "plugin-build/$slug/"
-          (cd plugin-build && zip -q -r "../$slug.zip" "$slug")
-          unzip -t "$slug.zip"
+          source_slug="${GITHUB_REPOSITORY#*/}"
+          package_slug="$(sed -n 's/^[[:space:]*]*Text Domain:[[:space:]]*\([^[:space:]]*\).*$/\1/p' "$source_slug.php" | head -n 1)"
+          test -n "$package_slug"
+          mkdir -p "plugin-build/$package_slug"
+          rsync -a --exclude-from=.distignore --exclude='/plugin-build/' --exclude='/*.zip' ./ "plugin-build/$package_slug/"
+          (cd plugin-build && zip -q -r "../$package_slug.zip" "$package_slug")
+          unzip -t "$package_slug.zip"
 
       - name: WordPress Plugin Check
         uses: WordPress/plugin-check-action@v1
         with:
-          build-dir: './plugin-build/ranau-simple-checkout'
+          build-dir: './plugin-build/ranau-simple-checkout-for-woocommerce'
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ranau-simple-checkout
-          path: ranau-simple-checkout.zip
+          name: ranau-simple-checkout-for-woocommerce
+          path: ranau-simple-checkout-for-woocommerce.zip

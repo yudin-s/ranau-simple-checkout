@@ -1,6 +1,10 @@
 # Release and WordPress.org submission
 
-This repository is the public source of the plugin. The WordPress.org release artifact is a generated ZIP that excludes source-only CI, tests, and contributor documentation through `.distignore`.
+This repository is the public source of the plugin. Its GitHub repository is
+`ranau-simple-checkout`, while its WordPress.org-assigned plugin slug and ZIP
+directory are `ranau-simple-checkout-for-woocommerce`. The release artifact is
+a generated ZIP that excludes source-only CI, tests, and contributor
+documentation through `.distignore`.
 
 ## Preflight
 
@@ -16,15 +20,16 @@ This repository is the public source of the plugin. The WordPress.org release ar
 From this repository root:
 
 ```sh
-slug="$(basename "$PWD")"
+source_slug="$(basename "$PWD")"
+package_slug="ranau-simple-checkout-for-woocommerce"
 repo_root="$PWD"
-version="$(sed -n 's/^[[:space:]*]*Version:[[:space:]]*\([^[:space:]]*\).*$/\1/p' "$slug.php" | head -n 1)"
+version="$(sed -n 's/^[[:space:]*]*Version:[[:space:]]*\([^[:space:]]*\).*$/\1/p' "$source_slug.php" | head -n 1)"
 staging="$(mktemp -d)"
-mkdir -p "$staging/$slug"
-rsync -a --exclude-from=.distignore --exclude='/*.zip' ./ "$staging/$slug/"
-(cd "$staging" && zip -q -r "$repo_root/$slug-$version.zip" "$slug")
-unzip -t "./$slug-$version.zip"
-shasum -a 256 "./$slug-$version.zip"
+mkdir -p "$staging/$package_slug"
+rsync -a --exclude-from=.distignore --exclude='/*.zip' ./ "$staging/$package_slug/"
+(cd "$staging" && zip -q -r "$repo_root/$package_slug-$version.zip" "$package_slug")
+unzip -t "./$package_slug-$version.zip"
+shasum -a 256 "./$package_slug-$version.zip"
 ```
 
 Pushing a signed or annotated `v<version>` tag also runs the release workflow and publishes the same source-filtered ZIP to GitHub Releases.
@@ -38,4 +43,5 @@ Pushing a signed or annotated `v<version>` tag also runs the release workflow an
 5. Copy the release contents to `trunk/` and the matching version directory under `tags/`; keep directory artwork under the SVN `assets/` directory, not inside the plugin ZIP.
 6. Re-run Plugin Check on the exact SVN-ready tree before committing it.
 
-WordPress.org approval and the final directory slug are controlled by the WordPress.org review team. Do not publish to SVN before approval.
+The assigned directory slug is `ranau-simple-checkout-for-woocommerce`. Do not
+publish to SVN before approval.

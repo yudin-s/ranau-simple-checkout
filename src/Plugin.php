@@ -65,11 +65,11 @@ final class Plugin
 
             $locale[$country]['city'] = array_merge(
                 is_array($locale[$country]['city'] ?? null) ? $locale[$country]['city'] : array(),
-                array('required' => true, 'hidden' => false, 'label' => __('Delivery city', 'ranau-simple-checkout'))
+                array('required' => true, 'hidden' => false, 'label' => __('Delivery city', 'ranau-simple-checkout-for-woocommerce'))
             );
             $locale[$country]['phone'] = array_merge(
                 is_array($locale[$country]['phone'] ?? null) ? $locale[$country]['phone'] : array(),
-                array('required' => true, 'hidden' => false, 'label' => __('Phone number', 'ranau-simple-checkout'))
+                array('required' => true, 'hidden' => false, 'label' => __('Phone number', 'ranau-simple-checkout-for-woocommerce'))
             );
         }
 
@@ -98,13 +98,13 @@ final class Plugin
 
                 if ($name === 'city') {
                     $field['required'] = true;
-                    $field['label'] = __('Delivery city', 'ranau-simple-checkout');
+                    $field['label'] = __('Delivery city', 'ranau-simple-checkout-for-woocommerce');
                     $field['priority'] = 20;
                 }
 
                 if ($name === 'phone') {
                     $field['required'] = true;
-                    $field['label'] = __('Phone number', 'ranau-simple-checkout');
+                    $field['label'] = __('Phone number', 'ranau-simple-checkout-for-woocommerce');
                     $field['priority'] = 10;
                 }
             }
@@ -127,9 +127,9 @@ final class Plugin
         $data['shipping_city'] = $city;
         $data['billing_country'] = $this->allowedCountry((string) ($data['billing_country'] ?? ''));
         $data['shipping_country'] = $this->allowedCountry((string) ($data['shipping_country'] ?? ''));
-        $data['billing_first_name'] = $this->fallback((string) ($data['billing_first_name'] ?? ''), __('Customer', 'ranau-simple-checkout'));
+        $data['billing_first_name'] = $this->fallback((string) ($data['billing_first_name'] ?? ''), __('Customer', 'ranau-simple-checkout-for-woocommerce'));
         $data['shipping_first_name'] = $this->fallback((string) ($data['shipping_first_name'] ?? ''), $data['billing_first_name']);
-        $data['billing_last_name'] = $this->fallback((string) ($data['billing_last_name'] ?? ''), __('Online order', 'ranau-simple-checkout'));
+        $data['billing_last_name'] = $this->fallback((string) ($data['billing_last_name'] ?? ''), __('Online order', 'ranau-simple-checkout-for-woocommerce'));
         $data['shipping_last_name'] = $this->fallback((string) ($data['shipping_last_name'] ?? ''), $data['billing_last_name']);
         $data['billing_address_1'] = $this->fallback((string) ($data['billing_address_1'] ?? ''), $city);
         $data['shipping_address_1'] = $this->fallback((string) ($data['shipping_address_1'] ?? ''), $city);
@@ -153,14 +153,14 @@ final class Plugin
         if (!$this->validPhone($phone)) {
             $errors->add(
                 'ranau_simple_checkout_phone_required',
-                __('Enter a valid phone number.', 'ranau-simple-checkout')
+                __('Enter a valid phone number.', 'ranau-simple-checkout-for-woocommerce')
             );
         }
 
         if (mb_strlen($city) < 2) {
             $errors->add(
                 'ranau_simple_checkout_city_required',
-                __('Choose a delivery city.', 'ranau-simple-checkout')
+                __('Choose a delivery city.', 'ranau-simple-checkout-for-woocommerce')
             );
         }
     }
@@ -186,11 +186,11 @@ final class Plugin
         $city = sanitize_text_field((string) ($shipping['city'] ?? $billing['city'] ?? $order->get_shipping_city()));
 
         if (!$this->validPhone($phone)) {
-            $this->throwStoreApiError('ranau_simple_checkout_phone_required', __('Enter a valid phone number.', 'ranau-simple-checkout'));
+            $this->throwStoreApiError('ranau_simple_checkout_phone_required', __('Enter a valid phone number.', 'ranau-simple-checkout-for-woocommerce'));
         }
 
         if (mb_strlen($city) < 2) {
-            $this->throwStoreApiError('ranau_simple_checkout_city_required', __('Choose a delivery city.', 'ranau-simple-checkout'));
+            $this->throwStoreApiError('ranau_simple_checkout_city_required', __('Choose a delivery city.', 'ranau-simple-checkout-for-woocommerce'));
         }
 
         $country = $this->allowedCountry((string) ($shipping['country'] ?? $billing['country'] ?? ''));
@@ -200,9 +200,9 @@ final class Plugin
         $order->set_shipping_city($city);
         $order->set_billing_country($country);
         $order->set_shipping_country($country);
-        $order->set_billing_first_name($this->fallback($order->get_billing_first_name(), __('Customer', 'ranau-simple-checkout')));
+        $order->set_billing_first_name($this->fallback($order->get_billing_first_name(), __('Customer', 'ranau-simple-checkout-for-woocommerce')));
         $order->set_shipping_first_name($this->fallback($order->get_shipping_first_name(), $order->get_billing_first_name()));
-        $order->set_billing_last_name($this->fallback($order->get_billing_last_name(), __('Online order', 'ranau-simple-checkout')));
+        $order->set_billing_last_name($this->fallback($order->get_billing_last_name(), __('Online order', 'ranau-simple-checkout-for-woocommerce')));
         $order->set_shipping_last_name($this->fallback($order->get_shipping_last_name(), $order->get_billing_last_name()));
         $order->set_billing_address_1($this->fallback($order->get_billing_address_1(), $city));
         $order->set_shipping_address_1($this->fallback($order->get_shipping_address_1(), $city));
@@ -276,12 +276,12 @@ final class Plugin
             'namespace' => self::STORE_API_NAMESPACE,
             'country' => $this->allowedCountry(''),
             'messages' => array(
-                'chooseCity' => __('Choose city', 'ranau-simple-checkout'),
-                'saving' => __('Saving…', 'ranau-simple-checkout'),
-                'saved' => __('City selected', 'ranau-simple-checkout'),
-                'invalidCity' => __('Enter a city name.', 'ranau-simple-checkout'),
-                'invalidPhone' => __('Enter a valid phone number.', 'ranau-simple-checkout'),
-                'failed' => __('Could not update checkout. Try again.', 'ranau-simple-checkout'),
+                'chooseCity' => __('Choose city', 'ranau-simple-checkout-for-woocommerce'),
+                'saving' => __('Saving…', 'ranau-simple-checkout-for-woocommerce'),
+                'saved' => __('City selected', 'ranau-simple-checkout-for-woocommerce'),
+                'invalidCity' => __('Enter a city name.', 'ranau-simple-checkout-for-woocommerce'),
+                'invalidPhone' => __('Enter a valid phone number.', 'ranau-simple-checkout-for-woocommerce'),
+                'failed' => __('Could not update checkout. Try again.', 'ranau-simple-checkout-for-woocommerce'),
             ),
         ));
     }

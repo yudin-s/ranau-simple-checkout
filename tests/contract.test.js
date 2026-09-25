@@ -36,10 +36,18 @@ assert(frontend.indexOf("trigger('update_checkout')") > frontend.indexOf('extens
 assert(frontend.includes('new window.MutationObserver(scheduleMount)'));
 assert(frontend.includes('if (scheduled)'));
 
-assert(readme.includes('Stable tag: 0.1.1'));
+assert(bootstrap.includes('Version:           0.1.2'));
+assert(bootstrap.includes('Text Domain:       ranau-simple-checkout-for-woocommerce'));
+assert(readme.includes('Stable tag: 0.1.2'));
 assert(readme.includes('Contributors: yudins'));
 assert(readme.includes('No. The plugin does not call Ranau or any analytics service.'));
 assert(readme.includes('https://ranau.uk/'));
 assert(!readme.includes(legacyHost));
+
+const gettextCalls = `${bootstrap}\n${plugin}`.match(/__\([^)]*\)/g) || [];
+assert(gettextCalls.length > 0);
+for (const call of gettextCalls) {
+    assert(call.includes("'ranau-simple-checkout-for-woocommerce'"), `unexpected gettext domain: ${call}`);
+}
 
 console.log('Ranau Simple Checkout contract checks passed.');
